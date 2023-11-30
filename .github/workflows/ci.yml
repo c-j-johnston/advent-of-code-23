@@ -1,0 +1,65 @@
+name: Lint, Test and Build
+
+on:
+  push:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      # - name: Setup git config
+      #   run: git config --global url."https://fullfactdeploy:${{ secrets.GH_TOKEN }}@github.com/".insteadOf "git@github.com:"
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      # - name: Install poetry
+      #   run: pip install poetry
+      # - uses: actions/setup-python@v4
+      #   with:
+      #     python-version-file: 'pyproject.toml'
+      # - name: Install dependencies
+      #   run: poetry install
+      # - name: Check typing with mypy
+      #   run: poetry run mypy --install-types --non-interactive src
+      # - name: Check code formatting with black
+      #   run: poetry run black --check .
+      # - name: PEP8
+      #   run: poetry run flake8 .
+      # - name: Run tests
+      #   run: poetry run pytest -v tests
+      #   env:
+      #     PYTHONPATH: src
+
+  build:
+    needs: test
+    if: ${{ github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0  # Needed due to ff_release dependency (check out everything)
+      # - name: Login to Docker Hub
+      #   uses: docker/login-action@v2
+      #   with:
+      #     username: autofullfact
+      #     password: ${{ secrets.DOCKER_TOKEN }}
+      # - name: Release
+      #   run: |
+      #     docker run -e TRAVIS_BRANCH -e GITHUB_USERNAME -e GITHUB_TOKEN -e DOCKER_USERNAME -e DOCKER_TOKEN -e TRAVIS_REPO_SLUG -e DOCKER_IMAGE_NAME -v $PWD:/build -v /var/run/docker.sock:/var/run/docker.sock fullfact/ff_release:1.1.3
+      #   env:
+      #     TRAVIS_BRANCH: ${{ github.ref_name }}
+      #     TRAVIS_REPO_SLUG: ${{ github.repository }}
+      #     GITHUB_USERNAME: fullfactdeploy
+      #     GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      #     DOCKER_IMAGE_NAME: ${{ github.event.repository.name }}
+      #     DOCKER_USERNAME: autofullfact
+      #     DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
