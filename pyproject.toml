@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "advent-of-code-23"
 version = "0.0.1"
-description = "A template for Python projects"
+description = "A repo for Advent of Code 2023 attempts."
 authors = ["Cameron Johnston <cameronjohnston53@outlook.com>"]
 maintainers = ["Cameron Johnston <cameronjohnston53@outlook.com>"]
 readme = "README.md"
