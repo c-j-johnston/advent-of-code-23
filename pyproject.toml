@@ -6,6 +6,7 @@ authors = ["Cameron Johnston <cameronjohnston53@outlook.com>"]
 maintainers = ["Cameron Johnston <cameronjohnston53@outlook.com>"]
 readme = "README.md"
 license = ""
+packages = [{ include = "advent_of_code"}]
 
 [build-system]
 requires = ["poetry-core"]
@@ -21,6 +22,7 @@ scipy = "^1.11.4"
 matplotlib = "^3.8.2"
 pandas = "^2.1.3"
 scikit-learn = "^1.3.2"
+regex = "^2023.10.3"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.7.0"
