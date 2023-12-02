@@ -4,7 +4,7 @@ from advent_of_code.dec_2.dice_game import (
     format_game_string,
     check_game_is_possible,
     get_game_id,
-    get_results_dict,
+    create_game_dicts,
     sum_of_ids,
     get_minimum_dice,
     get_power,
@@ -138,7 +138,7 @@ def test_minimum_and_power(game_dict, minimum_dice, power):
     ],
 )
 def test_whole_thing_part_one(games_list, ids_total):
-    assert sum_of_ids(get_results_dict(games_list)) == ids_total
+    assert sum_of_ids(create_game_dicts(games_list)) == ids_total
 
 
 @pytest.mark.parametrize(
@@ -157,4 +157,4 @@ def test_whole_thing_part_one(games_list, ids_total):
     ],
 )
 def test_whole_thing_part_2(games_list, total_power):
-    assert sum_of_game_powers(get_results_dict(games_list)) == total_power
+    assert sum_of_game_powers(create_game_dicts(games_list)) == total_power
